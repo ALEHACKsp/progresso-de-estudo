@@ -27,6 +27,9 @@ export class Content {
   @Column()
   totalQuestionsAnswered: Number;
 
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
+  createdAt: string;
+
   @ManyToOne(type => Subject, subject => subject.contents)
   subjects: Array<Subject>;
 }

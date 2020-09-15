@@ -2,16 +2,14 @@ const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
-console.log(process.env);
-
 const databaseConfig = {
    development: {
       type: "mysql",
       host: "localhost",
       port: 3306,
-      username: "test",
-      password: "test",
-      database: "test",
+      username: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_SCHEMA,
       synchronize: true,
       logging: false,
       entities: [
@@ -34,9 +32,9 @@ const databaseConfig = {
       type: "mysql",
       host: "localhost",
       port: 3306,
-      username: "test",
-      password: "test",
-      database: "test",
+      username: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_SCHEMA,
       synchronize: true,
       logging: false,
       entities: [
@@ -55,3 +53,5 @@ const databaseConfig = {
       }
    }
 }
+
+module.exports = databaseConfig[process.env.NODE_ENV];

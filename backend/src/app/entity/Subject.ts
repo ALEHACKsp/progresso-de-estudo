@@ -13,6 +13,9 @@ export class Subject {
   @ManyToOne(type => User, user => user.subjects)
   user: User;
 
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
+  createdAt: string;
+
   @OneToMany(type => Content, content => content.subjects)
   contents: Content;
 }
