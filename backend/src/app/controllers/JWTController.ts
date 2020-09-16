@@ -15,7 +15,7 @@ class JWTController {
     
     const token = JWTUtil.createToken(user.id as number);
 
-    return response.status(200).json({ token });
+    return response.status(200).json({ token, expireIn: `${JWTUtil.expireTime}s` });
   }
 }
 
