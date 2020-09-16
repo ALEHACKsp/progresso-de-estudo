@@ -26,6 +26,25 @@ class UserRepository {
     }
   }
 
+  static async getUserById(id: Number) {
+    const connection = await createConnection();
+    
+    try {
+      const user = await connection
+        .getRepository(User)
+        .createQueryBuilder('users')
+        .where('id = :id', { id })
+        .getOne();
+
+      await connection.close();
+      return user;
+    }
+    catch(err) {
+      await connection.close();
+      return null;
+    }
+  }
+
   static async create(user: User) {
     const connection = await createConnection();
 

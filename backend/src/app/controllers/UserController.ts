@@ -1,6 +1,8 @@
 import { User } from '../entity/User';
 import { Request, Response } from "express";
 import UserRepository from '../repository/UserRepository';
+import { stat } from 'fs';
+import JWTUtil from '../../util/JWTUtil';
 
 class UserController {
   static async store(request: Request, response: Response) {
@@ -19,6 +21,19 @@ class UserController {
     }
     
     return response.status(500).json({ err: result });
+  }
+
+  static async get(request: Request, response: Response) {
+    const token: string = request.headers.authorization; 
+
+    const user = await JWTUtil.getUser(token);
+
+    const userDataToSend = {
+      name: user.name,
+      email: user.email,
+    }
+
+    return response.json({ user: userDataToSend });
   }
 }
 
