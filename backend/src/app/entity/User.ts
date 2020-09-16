@@ -25,6 +25,6 @@ export class User {
   @BeforeInsert()
   @BeforeUpdate()
   hashPassword() {
-    this.password = PasswordUtil.hashPassoword(this.password);
+    this.password = PasswordUtil.hashPassword(this.password);
   }
 }

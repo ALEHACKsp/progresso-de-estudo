@@ -1,9 +1,10 @@
 import { Router } from 'express';
 import UserController from '../app/controllers/UserController';
+import JWTController from '../app/controllers/JWTController';
 
 const routes = Router();
 
-routes.post('/login', () => {});
+routes.get('/token', JWTController.getToken);
 routes.post('/user', UserController.store);
 routes.get('/materias', () => {});
 routes.get('/:materia/conteudos', () => {});

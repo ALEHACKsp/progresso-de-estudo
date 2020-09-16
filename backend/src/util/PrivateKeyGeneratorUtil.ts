@@ -2,7 +2,7 @@ import * as crypto from 'crypto';
 
 class PrivateKeyGeneratorUtil {
   static generate() {
-    const diffieHellman = crypto.createDiffieHellman(512);
+    const diffieHellman = crypto.createDiffieHellman(256);
     diffieHellman.generateKeys('base64');
 
     return diffieHellman.getPrivateKey('base64');
