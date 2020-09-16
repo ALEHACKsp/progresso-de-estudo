@@ -1,10 +1,10 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Content } from './Content';
 import { User } from './User';
 
 @Entity({ name: 'subjects' })
 export class Subject {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id: Number;
 
   @Column()
@@ -16,6 +16,6 @@ export class Subject {
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
   createdAt: string;
 
-  @OneToMany(type => Content, content => content.subjects)
+  @OneToMany(type => Content, content => content.subjects, { onDelete: 'CASCADE' })
   contents: Content;
 }

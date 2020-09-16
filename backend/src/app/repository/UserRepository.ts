@@ -57,10 +57,30 @@ class UserRepository {
     }
     catch(err) {
       console.log(err);
+      await connection.close();
+      return err;
+    }
+  }
+
+  static async deleteUserById(id: Number) {
+    const connection = await createConnection();
+
+    try {
+      await connection.manager
+        .createQueryBuilder()
+        .delete()
+        .from(User, 'users')
+        .where('users.id = :id', { id })
+        .execute();
 
       await connection.close();
 
-      return err;
+      return true;
+    }
+    catch(err) {
+      console.log(err);
+      await connection.close();
+      return false;
     }
   }
 }

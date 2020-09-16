@@ -1,7 +1,6 @@
 import { User } from '../entity/User';
 import { Request, Response } from "express";
 import UserRepository from '../repository/UserRepository';
-import { stat } from 'fs';
 import JWTUtil from '../../util/JWTUtil';
 
 class UserController {
@@ -28,12 +27,34 @@ class UserController {
 
     const user = await JWTUtil.getUser(token);
 
-    const userDataToSend = {
-      name: user.name,
-      email: user.email,
+    if (user) {
+      const userDataToSend = {
+        name: user.name,
+        email: user.email,
+      }
+  
+      return response.status(200).json({ user: userDataToSend });
     }
+    
+    return response.status(404).json({ err: 'User was not found.' });
+  }
 
-    return response.json({ user: userDataToSend });
+  static async delete(request: Request, response: Response) {
+    const token: string = request.headers.authorization; 
+
+    const user = await JWTUtil.getUser(token);
+
+    if (user) {
+      const result = await UserRepository.deleteUserById(user.id);
+
+      if (result) {
+        return response.status(200).json();
+      }
+  
+      return response.status(500).json();
+    }
+    
+    return response.status(404).json({ err: 'User was not found.' });
   }
 }
 
