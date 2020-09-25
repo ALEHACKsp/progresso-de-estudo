@@ -5,6 +5,19 @@ import SubjectRepository from "../repository/SubjectRepository";
 
 
 class SubjectController {
+  static async index(request: Request, response: Response) {
+    const token: string = request.headers.authorization;
+
+    const user = await JWTUtil.getUser(token);
+    const subjects = await SubjectRepository.getAllFromUser(user.id);
+
+    if (subjects instanceof Array) {
+      return response.status(200).json(subjects);
+    }
+
+    return response.status(500).json();
+  }
+  
   static async store(request: Request, response: Response) {
     const token: string = request.headers.authorization;
     const { name }: { name: string } = request.body;
@@ -22,6 +35,20 @@ class SubjectController {
 
     return response.status(500).json({ err: 'Could not create subject.' })
   };
+
+  static async delete(request: Request, response: Response) {
+    const token: string = request.headers.authorization;
+    const user = await JWTUtil.getUser(token);
+    const subjectId = request.params.id;
+    
+    const subject = await SubjectRepository.getSubject(Number.parseInt(subjectId), user.id);
+
+    if (subject instanceof Subject && await SubjectRepository.delete(subject)) {
+      return response.status(200).json();
+    }
+
+    return response.status(500).json({ err: 'Was not possible delete this subject.' });
+  }
 }
 
 export default SubjectController;

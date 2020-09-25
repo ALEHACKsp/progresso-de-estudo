@@ -25,6 +25,7 @@ class UserController {
   static async get(request: Request, response: Response) {
     const token: string = request.headers.authorization; 
 
+    console.log(token);
     const user = await JWTUtil.getUser(token);
 
     if (user) {
