@@ -41,7 +41,7 @@ class SubjectController {
     const user = await JWTUtil.getUser(token);
     const subjectId = request.params.id;
     
-    const subject = await SubjectRepository.getSubject(Number.parseInt(subjectId), user.id);
+    const subject = await SubjectRepository.getSubject(Number.parseInt(subjectId));
 
     if (subject instanceof Subject && await SubjectRepository.delete(subject)) {
       return response.status(200).json();

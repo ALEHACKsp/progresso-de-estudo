@@ -21,7 +21,7 @@ class UserRepository {
     }
   }
 
-  static async getSubject(subjectId: Number, userId: Number) {
+  static async getSubjectFromUser(subjectId: Number, userId: Number) {
     const connection = await createConnection();
 
     try {
@@ -31,6 +31,28 @@ class UserRepository {
         .leftJoinAndSelect('subjects.user', 'users')
         .where('subjects.id LIKE :subjectId', { subjectId })
         .andWhere('subjects.userId = :userId', { userId })
+        .getOne();
+
+      await connection.close();
+
+      return subject;
+    }
+    catch(err) {
+      console.log(err);
+      await connection.close();
+      return err;
+    }
+  }
+
+  static async getSubject(subjectId: Number) {
+    const connection = await createConnection();
+
+    try {
+      const subject = await connection
+        .getRepository(Subject)
+        .createQueryBuilder('subjects')
+        .leftJoinAndSelect('subjects.user', 'users')
+        .where('subjects.id LIKE :subjectId', { subjectId })
         .getOne();
 
       await connection.close();

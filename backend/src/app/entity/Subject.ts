@@ -16,6 +16,6 @@ export class Subject {
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
   createdAt: string;
 
-  @OneToMany(type => Content, content => content.subjects, { onDelete: 'CASCADE' })
+  @OneToMany(type => Content, content => content.subject, { onDelete: 'CASCADE' })
   contents: Content;
 }
