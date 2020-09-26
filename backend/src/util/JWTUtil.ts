@@ -10,6 +10,21 @@ class JWTUtil {
 
     return token;
   }
+  
+  static isTokenValid(token: string) {
+    let result: boolean;
+
+    jwt.verify(token, process.env.PRIVATE_KEY, { algorithms: ['HS512'] }, (err) => {
+      if (err) {
+        result = false;
+      }
+      else {
+        result = true;
+      }
+    });
+
+    return result
+  }
 
   static async getUser(token: string) {
     try { 
