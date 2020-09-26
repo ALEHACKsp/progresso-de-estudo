@@ -19,7 +19,7 @@ export class User {
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
   createdAt: String;
 
-  @OneToMany(type => Subject, subject => subject.user, { onDelete: 'CASCADE' })
+  @OneToMany(type => Subject, subject => subject.user)
   subjects: Array<Subject>;
 
   @BeforeInsert()

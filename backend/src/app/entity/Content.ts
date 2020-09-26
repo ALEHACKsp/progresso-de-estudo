@@ -27,6 +27,6 @@ export class Content {
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
   createdAt: string;
 
-  @ManyToOne(type => Subject, subject => subject.contents)
+  @ManyToOne(type => Subject, subject => subject.contents, { onDelete: 'CASCADE' })
   subject: Subject;
 }

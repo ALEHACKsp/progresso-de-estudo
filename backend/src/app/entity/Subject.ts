@@ -10,7 +10,7 @@ export class Subject {
   @Column()
   name: String;
 
-  @ManyToOne(type => User, user => user.subjects)
+  @ManyToOne(type => User, user => user.subjects, { onDelete: 'CASCADE' })
   user: User;
 
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})

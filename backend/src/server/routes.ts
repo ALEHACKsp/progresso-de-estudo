@@ -7,76 +7,160 @@ import ContentController from '../app/controllers/ContentController';
 import LoginMiddleware from '../app/middlewares/LoginMiddleware';
 import SubjectOwnerMiddleware from '../app/middlewares/SubjectOwnerMiddleware';
 import ContentOwnerMiddleware from '../app/middlewares/ContentOwnerMiddleware';
+import RequestValidationErrorMiddleware from '../app/middlewares/RequestValidationErrorMiddleware';
+
+import TokenValidator from '../app/validators/TokenValidator';
+import UserValidator from '../app/validators/UserValidator';
+import SubjectValidator from '../app/validators/SubjectValidator';
+import ContentValidator from '../app/validators/ContentValidator';
 
 const routes = Router();
 
-routes.get('/token', JWTController.getToken); //Ok
+routes.get(
+  '/token',
 
-routes.post('/user', UserController.store); // Ok
+  //Validators
+  TokenValidator.get,
+
+  //Middlewares
+  RequestValidationErrorMiddleware.hasError, 
+  
+  //Controller method
+  JWTController.getToken
+); //Ok
+
+routes.post(
+  '/user', 
+
+  UserValidator.create,
+
+  RequestValidationErrorMiddleware.hasError,
+
+  UserController.store
+); // Ok
 
 routes.get(
-  '/user', 
+  '/user',
+
+  TokenValidator.passedToken,
+
+  RequestValidationErrorMiddleware.hasError, 
+
   LoginMiddleware.userIsLogged,
+
   UserController.get
 ); // Ok
 
 routes.delete(
   '/user', 
-  LoginMiddleware.userIsLogged, 
+  TokenValidator.passedToken,
+
+  RequestValidationErrorMiddleware.hasError, 
+
+  LoginMiddleware.userIsLogged,
+
   UserController.delete
 ); // Ok
 
 routes.post(
   '/subject', 
-  LoginMiddleware.userIsLogged, 
+
+  TokenValidator.passedToken,
+  SubjectValidator.create,
+
+  RequestValidationErrorMiddleware.hasError, 
+  LoginMiddleware.userIsLogged,
+
   SubjectController.store
 ); // Ok
 
 routes.delete(
   '/subject/:subjectId',
-  LoginMiddleware.userIsLogged, 
+  
+  TokenValidator.passedToken,
+  SubjectValidator.delete,
+
+  RequestValidationErrorMiddleware.hasError, 
+  LoginMiddleware.userIsLogged,
   SubjectOwnerMiddleware.userIsOwnerOfThisSubject,
+  
   SubjectController.delete
 ); // Ok
 
 routes.get(
   '/subjects', 
-  LoginMiddleware.userIsLogged, 
+  
+  TokenValidator.passedToken,
+  
+  RequestValidationErrorMiddleware.hasError, 
+  
+  LoginMiddleware.userIsLogged,
+  
   SubjectController.index
 ); // Ok
 
 routes.get(
   '/:subjectId/contents', 
-  LoginMiddleware.userIsLogged, 
+  
+  TokenValidator.passedToken,
+  ContentValidator.index,
+  
+  RequestValidationErrorMiddleware.hasError, 
+  LoginMiddleware.userIsLogged,
   SubjectOwnerMiddleware.userIsOwnerOfThisSubject,
+  
   ContentController.index
 ); // Ok
 
 routes.post(
   '/:subjectId/content', 
-  LoginMiddleware.userIsLogged, 
+  
+  TokenValidator.passedToken,
+  ContentValidator.store,
+  
+  RequestValidationErrorMiddleware.hasError, 
+  LoginMiddleware.userIsLogged,
   SubjectOwnerMiddleware.userIsOwnerOfThisSubject,
+  
   ContentController.store
 ); // Ok
 
 routes.get(
   '/content/:contentId', 
-  LoginMiddleware.userIsLogged, 
+  
+  TokenValidator.passedToken,
+  ContentValidator.get,
+  
+  RequestValidationErrorMiddleware.hasError, 
+  LoginMiddleware.userIsLogged,
   ContentOwnerMiddleware.userIsOwnerOfThisContent,
+  
   ContentController.get
 ); // Ok
 
 routes.put(
   '/content/:contentId', 
-  LoginMiddleware.userIsLogged, 
+  
+  TokenValidator.passedToken,
+  ContentValidator.update,
+  
+  RequestValidationErrorMiddleware.hasError, 
+  LoginMiddleware.userIsLogged,
   ContentOwnerMiddleware.userIsOwnerOfThisContent,
+  
   ContentController.update
 );
 
 routes.delete(
   '/content/:contentId/', 
-  LoginMiddleware.userIsLogged, 
+  
+  TokenValidator.passedToken,
+  ContentValidator.delete,
+  
+  RequestValidationErrorMiddleware.hasError, 
+  LoginMiddleware.userIsLogged,
   ContentOwnerMiddleware.userIsOwnerOfThisContent,
+  
   ContentController.delete
 ); // Ok
 
