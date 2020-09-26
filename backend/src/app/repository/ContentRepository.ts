@@ -41,6 +41,29 @@ class ContentRepository {
     }
   }
 
+  static async getContentFromUser(contentId: Number, userId: Number) {
+    const connection = await createConnection();
+    
+    try {
+      const content = await connection
+        .getRepository(Content)
+        .createQueryBuilder('contents')
+        .leftJoin('content.subject', 'subjects')
+        .where('content.id = :contentId', { contentId })
+        .andWhere('subjects.userId = :userId', { userId })
+        .getOne();
+
+      await connection.close();
+
+      return content;
+    }
+    catch(err) {
+      console.log(err);
+      await connection.close();
+      return null;
+    }
+  }
+
   static async getAll(subjectId: String, userId: Number) {
     const connection = await createConnection();
 

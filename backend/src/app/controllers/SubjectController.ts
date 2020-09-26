@@ -39,7 +39,7 @@ class SubjectController {
   static async delete(request: Request, response: Response) {
     const token: string = request.headers.authorization;
     const user = await JWTUtil.getUser(token);
-    const subjectId = request.params.id;
+    const subjectId = request.params.subjectId;
     
     const subject = await SubjectRepository.getSubject(Number.parseInt(subjectId));
 

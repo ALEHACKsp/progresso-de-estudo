@@ -5,6 +5,8 @@ import SubjectController from '../app/controllers/SubjectController';
 import ContentController from '../app/controllers/ContentController';
 
 import LoginMiddleware from '../app/middlewares/LoginMiddleware';
+import SubjectOwnerMiddleware from '../app/middlewares/SubjectOwnerMiddleware';
+import ContentOwnerMiddleware from '../app/middlewares/ContentOwnerMiddleware';
 
 const routes = Router();
 
@@ -31,8 +33,9 @@ routes.post(
 ); // Ok
 
 routes.delete(
-  '/subject/:id', 
+  '/subject/:subjectId',
   LoginMiddleware.userIsLogged, 
+  SubjectOwnerMiddleware.userIsOwnerOfThisSubject,
   SubjectController.delete
 ); // Ok
 
@@ -45,30 +48,35 @@ routes.get(
 routes.get(
   '/:subjectId/contents', 
   LoginMiddleware.userIsLogged, 
+  SubjectOwnerMiddleware.userIsOwnerOfThisSubject,
   ContentController.index
 ); // Ok
 
 routes.post(
   '/:subjectId/content', 
   LoginMiddleware.userIsLogged, 
+  SubjectOwnerMiddleware.userIsOwnerOfThisSubject,
   ContentController.store
 ); // Ok
 
 routes.get(
   '/content/:contentId', 
   LoginMiddleware.userIsLogged, 
+  ContentOwnerMiddleware.userIsOwnerOfThisContent,
   ContentController.get
 ); // Ok
 
 routes.put(
   '/content/:contentId', 
   LoginMiddleware.userIsLogged, 
+  ContentOwnerMiddleware.userIsOwnerOfThisContent,
   ContentController.update
 );
 
 routes.delete(
   '/content/:contentId/', 
   LoginMiddleware.userIsLogged, 
+  ContentOwnerMiddleware.userIsOwnerOfThisContent,
   ContentController.delete
 ); // Ok
 
