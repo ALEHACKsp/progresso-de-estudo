@@ -16,9 +16,10 @@ routes.post('/subject', SubjectController.store); // Ok
 routes.delete('/subject/:id', SubjectController.delete); // Ok
 routes.get('/subjects', SubjectController.index); // Ok
 
+routes.get('/:subjectId/contents', ContentController.index); // Ok
 routes.post('/:subjectId/content', ContentController.store); // Ok
 routes.get('/content/:contentId', ContentController.get); // Ok
-routes.get('/:subjectId/contents', ContentController.index); // Ok
+routes.put('/content/:contentId', ContentController.update);
 routes.delete('/content/:contentId/', ContentController.delete); // Ok
 
 export default routes;

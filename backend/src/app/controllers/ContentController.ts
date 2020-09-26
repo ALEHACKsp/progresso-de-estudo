@@ -53,6 +53,25 @@ class ContentController {
     return response.status(404).json({ err: 'content was not found.' });
   }
 
+  static async update(request: Request, response: Response) {
+    const contentId = request.params.contentId;
+    
+    const result = await ContentRepository.update(Number(contentId), { 
+      name: request.body.name,
+      check: request.body.check,
+      anotation: request.body.anotation,
+      totalErros: request.body.totalErros,
+      totalHits: request.body.totalHits,
+      totalQuestions: request.body.totalQuestions
+     });
+
+    if (result) {
+      return response.status(200).json(result);
+    }
+
+    return response.status(500).json({ err: 'We were unable to update this content.' });
+  }
+
   static async delete(request: Request, response: Response) {
     const contentId = request.params.contentId as string;
 

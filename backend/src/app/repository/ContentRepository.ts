@@ -1,5 +1,7 @@
+import UpdateContent from '../../interfaces/UpdateContent';
 import { createConnection } from 'typeorm';
 import { Content } from '../entity/Content';
+import ContentController from '../controllers/ContentController';
 
 class ContentRepository {
   static async create(content: Content) {
@@ -80,6 +82,28 @@ class ContentRepository {
       console.log(err);
       await connection.close();
       return err;
+    }
+  }
+
+  static async update(contentId: Number, newData: UpdateContent) {
+    try {
+      let content: Content = await this.getById(contentId);
+      content.name = newData.name || content.name;
+      content.check = newData.check || content.check;
+      content.anotation = newData.anotation || content.anotation;
+      content.totalErros = newData.totalErros || content.totalErros;
+      content.totalQuestions = newData.totalQuestions || content.totalQuestions;
+      content.totalHits = newData.totalHits || content.totalHits;
+      
+      const connection = await createConnection();
+      await connection.manager.save(content);
+      await connection.close();
+
+      return content;
+    }
+    catch(err) {
+      console.log(err);
+      return null;
     }
   }
 }
