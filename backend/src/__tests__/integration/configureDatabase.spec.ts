@@ -1,7 +1,6 @@
-import { createConnection } from 'typeorm'
+import { createConnection } from 'typeorm';
 
-describe('', () => {
-  console.log('AAAA');
+describe('Database Sync', () => {
   it('the database is expected to be synchronized', async () => {
     const connection = await createConnection();
     let databaseWasSync = false;

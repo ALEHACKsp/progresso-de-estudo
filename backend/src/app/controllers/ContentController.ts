@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Content } from "../entity/Content";
-import JWTUtil from "../../util/JWTUtil";
+import JWTUtil from "../../util/JWTUtil"; 
 import SubjectRepository from '../repository/SubjectRepository';
 import ContentRepository from "../repository/ContentRepository";
 
@@ -13,7 +13,6 @@ class ContentController {
     const contents = await ContentRepository.getAll(subjectId, user.id);
 
     if (Array.isArray(contents)) {
-      console.log("Caiu aqui");
       return response.status(200).json(contents);
     }
 

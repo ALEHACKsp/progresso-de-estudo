@@ -3,7 +3,6 @@ import JWTUtil from "../../util/JWTUtil";
 import { Subject } from "../entity/Subject";
 import SubjectRepository from "../repository/SubjectRepository";
 
-
 class SubjectController {
   static async index(request: Request, response: Response) {
     const token: string = request.headers.authorization;

@@ -12,7 +12,7 @@ module.exports = {
   // cacheDirectory: "C:\\Users\\lucas\\AppData\\Local\\Temp\\jest",
 
   // Automatically clear mock calls and instances between every test
-  clearMocks: true,
+  // clearMocks: false,
 
   // Indicates whether the coverage information should be collected while executing the test
   // collectCoverage: false,
@@ -91,7 +91,7 @@ module.exports = {
   // notifyMode: "failure-change",
 
   // A preset that is used as a base for Jest's configuration
-  preset: 'ts-jest',
+  // preset: undefined,
 
   // Run tests from one or more projects
   // projects: undefined,
@@ -128,6 +128,9 @@ module.exports = {
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
   // setupFilesAfterEnv: [],
 
+  // The number of seconds after which a test is considered as slow and reported as such in the results.
+  // slowTestThreshold: 5,
+
   // A list of paths to snapshot serializer modules Jest should use for snapshot testing
   // snapshotSerializers: [],
 
@@ -141,16 +144,15 @@ module.exports = {
   // testLocationInResults: false,
 
   // The glob patterns Jest uses to detect test files
-  // testMatch: [
-  //   "**/__tests__/**/*.[jt]s?(x)",
-  //   "**/?(*.)+(spec|test).[tj]s?(x)"
-  // ],
+  testMatch: [
+    "**/__tests__/**/*.[jt]s?(x)",
+    "**/?(*.)+(spec|test).[tj]s?(x)"
+  ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   testPathIgnorePatterns: [
     "\\\\node_modules\\\\",
-    "build"
-    // "src"
+    "src"
   ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
@@ -173,7 +175,8 @@ module.exports = {
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: [
-  //   "\\\\node_modules\\\\"
+  //   "\\\\node_modules\\\\",
+  //   "\\.pnp\\.[^\\\\]+$"
   // ],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
